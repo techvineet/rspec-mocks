@@ -737,7 +737,8 @@ module RSpec
       end
 
       def call(*args, &block)
-        @block.call(@method, *args, &block)
+        kwargs = args.last.is_a?(Hash) ? args.pop : {}
+        @block.call(@method, *args, **kwargs, &block)
       end
 
     private

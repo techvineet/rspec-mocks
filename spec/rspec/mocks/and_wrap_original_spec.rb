@@ -42,6 +42,13 @@ RSpec.describe "and_wrap_original" do
         expect(values).to eq [1, 2, 3]
       end
 
+      it 'works with keyword arguments' do
+        values = nil
+        allow_it.to receive(:results).and_wrap_original { |_, *args, **kwargs| values  = kwargs }
+        instance.results(1, 2, 3, a: 1, b: 2)
+        expect(values).to eq({ a: 1, b: 2 })
+      end
+
       it "passes along any supplied block" do
         value = nil
         allow_it.to receive(:results).and_wrap_original { |&b| value = b }
